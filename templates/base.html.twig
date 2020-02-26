@@ -3,7 +3,8 @@
     <head>
         <meta charset="UTF-8">
         <title>SymBNB -                                     {% block title %}Welcome!{% endblock %}</title>
-        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/app.css">
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
@@ -17,7 +18,10 @@
             <div class="collapse navbar-collapse" id="navbarColor01">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="{{ path('homepage')}}">Home </a>
+                        <a class="nav-link" href="{{ path('homepage')}}">Accueil</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ path('ads_index')}}">Annonces</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ml-auto">
@@ -30,8 +34,8 @@
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
 
-        <script src="js/jquery-3.4.1.js"></script>
-        <script src="js/popper.js"></script>
-        <script src="js/bootstrap.min.js"></script>
+        <script src="/js/jquery-3.4.1.js"></script>
+        <script src="/js/popper.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
     </body>
 </html>
