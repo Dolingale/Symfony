@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Ad;
 use App\Entity\Image;
-use App\Form\AnnounceType;
+use App\Form\AnnonceType;
 use App\Repository\AdRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,24 +39,17 @@ class AdController extends AbstractController
     public function create(Request $request, EntityManagerInterface $manager){
         $ad = new Ad();
 
-        $image = new Image();
-
-        $image->setUrl('http://placehold.it/400x200')
-              ->setCaption('Titre 1');
-
-        $image2 = new Image();
-
-        $image2->setUrl('http://placehold.it/400x200')
-              ->setCaption('Titre 2');
-
-        $ad->addImage($image)
-           ->addImage($image2);
-
-        $form = $this->createForm(AnnounceType::class, $ad);
+        $form = $this->createForm(AnnonceType::class, $ad);
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+
+            foreach($ad->getImages() as $image){
+                $image->setAd($ad);
+                $manager->persist($image);
+            }
+
             $manager->persist($ad);
             $manager->flush();
 
@@ -74,6 +67,45 @@ class AdController extends AbstractController
             'form' => $form->createView()
         ]);
 
+    }
+
+    /**
+     * Permet d'afficher le formulaire d'édition
+     *
+     * @Route("/ads/{slug}/edit", name="ads_edit")
+     * 
+     * @return Response
+     */
+    public function edit(Ad $ad, Request $request, EntityManagerInterface $manager){
+
+        $form = $this->createForm(AnnonceType::class, $ad);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+
+            foreach($ad->getImages() as $image){
+                $image->setAd($ad);
+                $manager->persist($image);
+            }
+
+            $manager->persist($ad);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                "Les modifications de l'annonce <strong>{$ad->getTitle()}</strong> ont bien été enregistrées !"
+            );
+
+            return $this->redirectToRoute('ads_show',[
+                'slug' => $ad->getSlug()
+            ]);
+        }
+
+        return $this->render('ad/edit.html.twig',[
+            'form' => $form->createView(),
+            'ad' => $ad
+        ]);
     }
 
     /**

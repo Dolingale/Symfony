@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>SymBNB -                                     {% block title %}Welcome!{% endblock %}</title>
+        <title>SymBNB -{% block title %}Welcome!{% endblock %}</title>
         <link rel="stylesheet" href="/css/bootstrap.min.css">
         <link rel="stylesheet" href="/css/app.css">
         {% block stylesheets %}{% endblock %}
@@ -14,8 +14,10 @@
 
         {% include 'partials/footer.html.twig' %}
 
+        
         <script src="/js/jquery-3.4.1.js"></script>
         <script src="/js/popper.js"></script>
         <script src="/js/bootstrap.min.js"></script>
+        {% block javascripts %}{% endblock %}
     </body>
 </html>
