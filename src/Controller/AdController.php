@@ -36,7 +36,7 @@ class AdController extends AbstractController
      * @return Response
      */
 
-    public function create(Request $request, EntityManagerInterface $manager){
+    public function create(Request $request, EntityManagerInterface $manager, AdRepository $repo){
         $ad = new Ad();
 
         $form = $this->createForm(AnnonceType::class, $ad);
@@ -45,10 +45,13 @@ class AdController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
 
+            
             foreach($ad->getImages() as $image){
                 $image->setAd($ad);
                 $manager->persist($image);
             }
+
+            $repo->findOneBy(['slug' => $ad->getSlug()]);
 
             $manager->persist($ad);
             $manager->flush();
@@ -57,6 +60,7 @@ class AdController extends AbstractController
                 'success',
                 "L'annonce <strong>{$ad->getTitle()}</strong> à bien été enregistrée !"
             );
+
 
             return $this->redirectToRoute('ads_show',[
                 'slug' => $ad->getSlug()
