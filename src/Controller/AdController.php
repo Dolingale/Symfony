@@ -37,33 +37,42 @@ class AdController extends AbstractController
      */
 
     public function create(Request $request, EntityManagerInterface $manager, AdRepository $repo){
-        $ad = new Ad();
+        $new_ad = new Ad();
 
-        $form = $this->createForm(AnnonceType::class, $ad);
+        $form = $this->createForm(AnnonceType::class, $new_ad);
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
 
             
-            foreach($ad->getImages() as $image){
-                $image->setAd($ad);
+            foreach($new_ad->getImages() as $image){
+                $image->setAd($new_ad);
                 $manager->persist($image);
             }
 
-            $repo->findOneBy(['slug' => $ad->getSlug()]);
+            $manager->persist($new_ad);
 
-            $manager->persist($ad);
+            $ad = $this->getDoctrine()->getRepository(Ad::class)->findOneBy(['slug' => $new_ad->getSlug()]);
+
+            if($ad != null){
+                $i = 1;
+                while ($this->getDoctrine()->getRepository(Ad::class)->findOneBy(['slug' => $new_ad->getSlug()]) != null){
+                    $i++;
+                    $new_ad->setSlug($new_ad->getSlug(). "-". $i);
+                }
+            }
+
             $manager->flush();
 
             $this->addFlash(
                 'success',
-                "L'annonce <strong>{$ad->getTitle()}</strong> à bien été enregistrée !"
+                "L'annonce <strong>{$new_ad->getTitle()}</strong> à bien été enregistrée !"
             );
 
 
             return $this->redirectToRoute('ads_show',[
-                'slug' => $ad->getSlug()
+                'slug' => $new_ad->getSlug()
             ]);
         }
 

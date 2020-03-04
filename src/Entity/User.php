@@ -18,7 +18,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * message="Un autre utilisateur s'est déjà inscrit avec cette adresse email, merci de la modifier"
  * )
  */
-class User implements UserInterface
+class User implements UserInterface           
 {
     /**
      * @ORM\Id()

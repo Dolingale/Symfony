@@ -18,7 +18,7 @@
                 <form action="{{ path('account_login') }}" method="POST">
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="text" name="_username" id="email" class="form-control"
+                        <input type="text" name="_username" id="email" class="form-control"   {# -> _username et _password sont les informations que Symfony se sert pour vérifier la connection #}
                             placeholder="Adresse email..." required value="{{ username }}">
                     </div>
 

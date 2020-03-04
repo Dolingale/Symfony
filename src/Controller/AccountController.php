@@ -61,7 +61,7 @@ class AccountController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $hash = $encoder->encodePassword($user, $user->getHash());
+            $hash = $encoder->encodePassword($user, $user->getHash());  // -> Permet de hash le mot de passe ($user = Entité défini dans le security.yaml, dit d'utiliser l'algo Bcrypt)
             $user->setHash($hash);
 
             $manager->persist($user);
@@ -90,13 +90,13 @@ class AccountController extends AbstractController
     public function profile(Request $request, EntityManagerInterface $manager){
         $user = $this->getUser();
 
-        $form = $this->createForm(AccountType::class, $user);
+        $form = $this->createForm(AccountType::class, $user);  // -> Formulaire avec les données de l'utilisateur
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
-            $manager->persist($user);
-            $manager->flush();
+        if($form->isSubmitted() && $form->isValid()){     // -> Vérifie si le formulaire à été envoyé et qu'il est valide
+            $manager->persist($user);                     // -> L'élément va durer dans le temps
+            $manager->flush();                            // -> Envoyer l'élément dans la BDD
 
             $this->addFlash(
                 'success',

@@ -19,8 +19,8 @@ security:
             provider: users_in_database
 
             form_login:
-                login_path: account_login
-                check_path: account_login
+                login_path: account_login    # -> Emplacement du formulaire de login
+                check_path: account_login    # -> Grace à quelle fonction on vérifie les informations de login
 
             logout:
                 path: account_logout    # Fonction qui permet de se déconnecter
