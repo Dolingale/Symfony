@@ -51,11 +51,13 @@ class AdController extends AbstractController
                 $manager->persist($image);
             }
 
+            $new_ad->setAuthor($this->getUser());
+
             $manager->persist($new_ad);
 
-            $ad = $this->getDoctrine()->getRepository(Ad::class)->findOneBy(['slug' => $new_ad->getSlug()]);
+            $ad = $this->getDoctrine()->getRepository(Ad::class)->findOneBy(['slug' => $new_ad->getSlug()]); // Vérifie si le nouveau slug est déja dans la BDD
 
-            if($ad != null){
+            if($ad != null){ // Vérifie si $ad est différent de null et s'il est différent de null le concatène avec "-" + un numéro
                 $i = 1;
                 while ($this->getDoctrine()->getRepository(Ad::class)->findOneBy(['slug' => $new_ad->getSlug()]) != null){
                     $i++;

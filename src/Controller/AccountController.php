@@ -7,6 +7,7 @@ use App\Form\AccountType;
 use App\Entity\PasswordUpdate;
 use App\Form\RegistrationType;
 use App\Form\PasswordUpdateType;
+use Symfony\Component\Form\FormError;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -129,6 +130,8 @@ class AccountController extends AbstractController
             // 1. Vérifier que le oldPassword du formulaire soit le même que le password de l'user
             if(!password_verify($passwordUpdate->getOldPassword(), $user->getHash())){
                 // Gérer l'erreur
+                $form->get('oldPassword')->addError(new FormError("Le mot de passe que vous avez tapé n'est pas
+                votre mot de passe actuel !"));
             } else{
                 $newPassword = $passwordUpdate->getNewPassword();
                 $hash = $encoder->encodePassword($user, $newPassword);
@@ -149,6 +152,19 @@ class AccountController extends AbstractController
 
         return $this->render('account/password.html.twig',[
             'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * Permet d'afficher le profil de l'utilisateur connecté
+     * 
+     * @Route("/account", name="account_index")
+     *
+     * @return Response
+     */
+    public function myAccount(){
+        return $this->render('user/index.html.twig',[
+            'user' => $this->getUser()
         ]);
     }
 

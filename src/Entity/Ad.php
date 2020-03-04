@@ -75,7 +75,7 @@ class Ad
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="ads")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $author;
 
