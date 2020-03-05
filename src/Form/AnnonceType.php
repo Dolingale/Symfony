@@ -21,9 +21,9 @@ class AnnonceType extends ApplicationType
     {
         $builder
             ->add('title', TextType::class, $this->getConfiguration("Titre", "Tapez un super titre pour votre annonce")) 
-            ->add('slug', TextType::class, $this->getConfiguration("Adresse web", "Tapez l'adresse web(automatique)", [
-                'required' => false
-            ]))
+            // ->add('slug', TextType::class, $this->getConfiguration("Adresse web", "Tapez l'adresse web(automatique)", [
+            //     'required' => false
+            // ]))
             ->add('coverImage', UrlType::class, $this->getConfiguration("URL de l'image principale", "Donnez l'adresse d'une image qui donne vraiment envie"))
             ->add('introduction', TextType::class, $this->getConfiguration("Introduction", "Donnez une description globale de l'annonce"))
             ->add('content', TextareaType::class, $this->getConfiguration("Description détaillée", "Tapez une description qui donne vraiment envie de venir chez vous !"))
