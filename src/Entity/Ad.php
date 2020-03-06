@@ -105,6 +105,32 @@ class Ad
         $this->slug = $slugify->slugify($this->title);
     }
 
+    /**
+     * Permet d'obtenir un tableau des jours qui ne sont pas disponibles pour cette annonce
+     *
+     * @return array Un tableau d'objets DateTime représentant les jours d'occupation
+     */
+    public function getNotAvailableDays(){
+        $notAvailableDays = [];
+
+        foreach($this->bookings as $booking){
+            // Calculer les jours qui se trouvent entre la date d'arrivée et de départ
+            $resultat = range(
+                $booking->getStartDate()->getTimestamp(),
+                $booking->getEndDate()->getTimestamp(),
+                24 * 60 * 60  // Convertir une journée en milliseconde (24h * 60 minutes dans une heure * 60 secondes dans une minute)
+            );
+
+            $days = array_map(function($dayTimestamp){       // -> Met les dates réservés dans un tableau
+                return new \DateTime(date('Y-m-d', $dayTimestamp));
+            }, $resultat);
+
+            $notAvailableDays = array_merge($notAvailableDays, $days); // -> Enrichit les dates réservées dans le tableua $notAvailableDays
+        }
+
+        return $notAvailableDays;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
