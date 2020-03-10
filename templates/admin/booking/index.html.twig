@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration des réservations{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <h1 class="my-5">Administration des réservations</h1>
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Date</th>
+                    <th>Occupant</th>
+                    <th>Annonce</th>
+                    <th></th>
+                </tr>
+            </thead>
+            
+            <tbody>
+                {% for booking in bookings %}
+                    <tr>
+                        <th>{{booking.id}}</th>
+                        <th>{{booking.createdAt | date('d/m/Y H:i')}}</th>
+                        <th>
+                            <img src="{{booking.booker.picture}}" class="avatar avatar-mini" alt="Avatar de {{booking.booker.fullName}}">
+                            {{booking.booker.fullName}}
+                        </th>
+                        <th>{{booking.ad.title}}</th>
+                        <th>
+                            <a href="{{path('admin_booking_edit', {'id':booking.id}) }}" class="btn btn-primary">
+                                <i class="fas fa-pen"></i>
+                            </a>
+                            <a href="{{path('admin_booking_delete', {'id':booking.id}) }}" class="btn btn-danger" onclick="return confirm ('Êtes-vous sûr de vouloir supprimer ce commentaire ??!')">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </th>
+                    </tr>
+                {% endfor %}
+                
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
