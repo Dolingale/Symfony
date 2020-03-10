@@ -40,6 +40,8 @@ class AdminBookingController extends AbstractController
         $form->handleRequest($req);
 
         if($form->isSubmitted() && $form->isValid()){
+            $booking->setAmount(0);
+        
             $manager->persist($booking);
             $manager->flush();
 
@@ -48,7 +50,7 @@ class AdminBookingController extends AbstractController
                 "La réservation n° <strong>{$booking->getId()}</strong> à bien été enregistrée !"
             );
 
-            return $this->redirectToRoute('admin/booking//edit');
+            return $this->redirectToRoute('admin_booking_index');
         }
 
         return $this->render('admin/booking/edit.html.twig',[
@@ -64,7 +66,15 @@ class AdminBookingController extends AbstractController
      *
      * @return Response
      */
-    public function delete(){
+    public function delete(Booking $booking, EntityManagerInterface $manager){
+        $manager->remove($booking);
+        $manager->flush();
 
+        $this->addFlash(
+            'success',
+            "La réservation à bien été supprimée"
+        );
+
+        return $this->redirectToRoute("admin_booking_index");
     }
 }
