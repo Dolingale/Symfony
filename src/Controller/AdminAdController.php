@@ -6,9 +6,9 @@ use App\Entity\Ad;
 use App\Form\AnnonceType;
 use App\Repository\AdRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 
 class AdminAdController extends AbstractController
 {
@@ -50,4 +50,34 @@ class AdminAdController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    /**
+     * Permet de supprimer une annonce
+     *
+     * @Route("/admin/ads/{id}/delete", name="admin_ads_delete")
+     * 
+     * @param Ad $ad
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
+    public function delete(Ad $ad, EntityManagerInterface $manager){
+        if(count($ad->getBookings()) > 0){
+            $this->addFlash(
+                'warning',
+                "Vous ne pouvez pas supprimer l'annonce <strong>{$ad->getTitle()}</strong> car elle possède déjà des reservations !" 
+            );
+        } else{
+            $manager->remove($ad);
+            $manager->flush();
+    
+            $this->addFlash(
+                'success',
+                "L'annonce <strong>{$ad->getTitle()}</strong> à bien été supprimée !"
+            );
+        }
+
+        return $this->redirectToRoute('admin_ads_index');
+    }
+
+
 }

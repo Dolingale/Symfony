@@ -1,0 +1,50 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Administration des commentaires{% endblock %}
+
+{% block body %}
+
+<div class="container"></div>
+    <h1 class="my-5">Administration des commentaires</h1>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>Auteur</th>
+                <th>Commentaire</th>
+                <th>Note</th>
+                <th>Annonce</th>
+                <th></th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            {% for comment in comments %}
+                <tr>
+                    <th>{{comment.id}}</th>
+                    <th>{{comment.createdAt | date('d/m/Y H:i')}}</th>
+                    <th>
+                        <img src="{{comment.author.picture}}" class="avatar avatar-mini" alt="Avatar de {{comment.author.fullName}}">
+                        {{comment.author.fullName}}
+                    </th>
+                    <th>{{comment.content | slice(0,50)}}...</th>
+                    <th>
+                        <span class="badge badge-light rounded">{{comment.rating}}</span>
+                    </th>
+                    <th>{{comment.ad.title}}</th>
+                    <th>
+                        <a href="{{path('admin_comment_edit', {'id':comment.id}) }}" class="btn btn-primary">
+                            <i class="fas fa-pen"></i>
+                        </a>
+                        <a href="{{path('admin_comment_delete', {'id':comment.id}) }}" class="btn btn-danger" onclick="return confirm ('Êtes-vous sûr de vouloir supprimer ce commentaire ??!')">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </th>
+                </tr>
+            {% endfor %}
+            
+        </tbody>
+    </table>
+{% endblock %}
