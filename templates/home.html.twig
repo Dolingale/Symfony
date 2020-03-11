@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Bienvenue sur le meilleur réseau d'arnaques
+    Bienvenue sur le meilleur réseau d'appartements
 {% endblock %}
 
 {% block body %}
@@ -22,130 +22,31 @@
         <h2 class="h1 my-5">Nos appartements stars</h2>
 
         <div class="row mt-5">
-            <div class="col-md-4">
-                <div class="card bg-light mb-3">
-                    <div class="card-header text-center">
-                        3 chambres, <strong>49&euro; /nuit</strong><br>
-                        <small>Pas encore noté</small>
-                    </div>
-
-                    <img src="https://odis.homeaway.com/odis/listing/3ff24f47-337c-47d1-9041-5081719b9562.f6.jpg" alt="Image de l'appartement"
-                        style="height: 200px; width: 100%; display:block">
-
-                    <div class="card-body">
-                        <h4 class="card-title">
-                            Appartement de ouf !
-                        </h4>
-                        <p class="card-text">
-                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Earum aut voluptate ad at delectus
-                            debitis temporibus eos tempore repellendus minus!
-                        </p>
-                        <a href="#" class="btn btn-secondary">Et ça j'achète !!!!</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card bg-light mb-3">
-                    <div class="card-header text-center">
-                        3 chambres, <strong>49&euro; /nuit</strong><br>
-                        <small>Pas encore noté</small>
-                    </div>
-
-                    <img src="https://www.cdiscount.com/pdt2/3/5/8/1/700x700/ovo6933518171358/rw/cabanon-de-jardin-en-rondins-bois-massif-28-mm-6.jpg" alt="Image de l'appartement"
-                        style="height: 200px; width: 100%; display:block">
-
-                    <div class="card-body">
-                        <h4 class="card-title">
-                            Appartement de ouf !
-                        </h4>
-                        <p class="card-text">
-                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Earum aut voluptate ad at delectus
-                            debitis temporibus eos tempore repellendus minus!
-                        </p>
-                        <a href="#" class="btn btn-secondary">Et ça j'achète !!!!</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card bg-light mb-3">
-                    <div class="card-header text-center">
-                        3 chambres, <strong>49&euro; /nuit</strong><br>
-                        <small>Pas encore noté</small>
-                    </div>
-
-                    <img src="https://www.handinorme.com/7221-thickbox_default/tente-pmr.jpg" alt="Image de l'appartement"
-                        style="height: 200px; width: 100%; display:block">
-
-                    <div class="card-body">
-                        <h4 class="card-title">
-                            Appartement de ouf !
-                        </h4>
-                        <p class="card-text">
-                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Earum aut voluptate ad at delectus
-                            debitis temporibus eos tempore repellendus minus!
-                        </p>
-                        <a href="#" class="btn btn-secondary">Et ça j'achète !!!!</a>
-                    </div>
-                </div>
-            </div>
+            {% for data in ads %}
+                {% include "ad/_ad.html.twig" with {'ad': data.annonce} %}
+            {% endfor %}
         </div>
 
         <h2 class="h1 my-5">Nos propriétaires stars !</h2>
-
-
+        
         <div class="row">
-{#          UTILISATEUR 1 #}
-            <div class="col">
-                <div class="card border-secondary mb-3">
-                    <div class="card-body">
-                        <h4 class="card-title">François Fillon</h4>
+            {% for data in  users%}
+                <div class="col">
+                    <div class="card border-secondary mb-3">
+                        <div class="card-body">
+                            <h4 class="card-title">{{data.user.fullName}}</h4>
 
-                        <hr>
+                            <hr>
 
-                        <div class="card-text">
-                            <img src="https://static.cnews.fr/sites/default/files/styles/image_640_360/public/5ff65c2efa00494d0f8dfd7efb04badd3ddce0c2.jpg?itok=EqJKnSYx" alt="Avatar de François Fillon" class="float-left mr-3" style="width: 64px; height: auto">
-                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque, debitis exercitationem facere repudiandae voluptas nobis accusantium magni! Aliquid, quo eius.</p>
-                            <a href="#" class="btn btn-success float-right">Comment arnaquer les gens !!</a>
+                            <div class="card-text">
+                                <img src="{{data.user.picture}}" alt="Avatar de {{data.user.fullName}}" class="float-left mr-3">
+                                <p>{{data.user.introduction}}</p>
+                                <a href="{{ path('user_show', {'slug': data.user.slug}) }}" class="btn btn-success float-right">En savoir plus</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-{#          UTILISATEUR 2 #}
-            <div class="col">
-                <div class="card border-secondary mb-3">
-                    <div class="card-body">
-                        <h4 class="card-title">Faye Lapresse</h4>
-
-                        <hr>
-
-                        <div class="card-text">
-                            <img src="https://img.aws.la-croix.com/2019/12/09/1201065379/Patrick-Balkany-devant-Tribunal-Grande-Instance-Paris-13-septembre-2019_0_729_486.jpg" alt="Avatar de François Fillon" class="float-left mr-3" style="width: 64px; height: auto">
-                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque, debitis exercitationem facere repudiandae voluptas nobis accusantium magni! Aliquid, quo eius.</p>
-                            <a href="#" class="btn btn-success float-right">Comment arnaquer les gens !!</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-{#          UTILISATEUR 3 #}
-            <div class="col">
-                <div class="card border-secondary mb-3">
-                    <div class="card-body">
-                        <h4 class="card-title">Éric Grivois</h4>
-
-                        <hr>
-
-                        <div class="card-text">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/PR-2012-05-15_IMG_1493_%28crop%29.jpg/220px-PR-2012-05-15_IMG_1493_%28crop%29.jpg" alt="Avatar de François Fillon" class="float-left mr-3" style="width: 64px; height: auto">
-                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque, debitis exercitationem facere repudiandae voluptas nobis accusantium magni! Aliquid, quo eius.</p>
-                            <a href="#" class="btn btn-success float-right">En savoir plus !</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 

@@ -1,4 +1,4 @@
-div.container{
+div.container, .container-fluid{
     margin-top: 20px;
 }
 
@@ -51,3 +51,4 @@ img.avatar-mini{
     color: firebrick !important;
     font-weight: bolder !important;
 }
+
